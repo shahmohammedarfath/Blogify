@@ -43,7 +43,7 @@ const createBlog = async (req, res) => {
 const getAllBlogs = async (req, res) => {
   try {
     const blogs = await Blog.find()
-      .populate("author", "username email")
+      .populate("author", "username")
       .sort({ createdAt: -1 });
 
     res.status(200).json({ message: "Blogs fetched successfully", blogs });
@@ -53,4 +53,19 @@ const getAllBlogs = async (req, res) => {
   }
 };
 
-export { createBlog, getAllBlogs };
+const getSingleBlog = async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id).populate(
+      "author",
+      "username"
+    );
+    if(!blog) {
+      return res.status(404).json({ message: "Blog post not found"})
+    }
+    res.json(blog)
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export { createBlog, getAllBlogs, getSingleBlog };
