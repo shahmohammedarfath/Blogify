@@ -7,24 +7,27 @@ import BlogList from "./components/blog/BlogList.jsx";
 import BlogPost from "./components/blog/BlogPost.jsx";
 import Register from "./components/auth/Register.jsx";
 import Login from "./components/auth/Login.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 function App() {
   return (
-    <Router>
-      <div className="flex-col min-h-screen">
-        <Header />
-        <main className="flex-1 p-8 my-0 mx-auto">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/blog" element={<BlogList/>}/>
-            <Route path="/blog/:id" element={<BlogPost/>}/>
-            <Route path="/register" element={<Register/>}/>
-            <Route path="/login" element={<Login/>}/>
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div className="flex-col min-h-screen">
+          <Header />
+          <main className="flex-1 p-8 my-0 mx-auto">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/blog" element={<BlogList />} />
+              <Route path="/blog/:id" element={<BlogPost />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 

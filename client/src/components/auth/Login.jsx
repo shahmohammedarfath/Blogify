@@ -1,25 +1,25 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../utils/api.js";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    // Here you would typically send a request to your backend API
-    // For this example, we'll just simulate a successful login
     try {
-      const response = await API.post("/user/login", { email, password });
-      localStorage.setItem("token", response.data.token);
-      setMessage(response.data.message);
+      await login(email, password);
       alert(response.data.message + " Redirecting to Dashboard...");
       navigate("/blog");
     } catch (error) {
-      setMessage(error.response?.data?.message || "Login Failed");
+      setError(
+        error.response?.data?.message ||
+          "Login Failed. Please check your credentials."
+      );
     }
   }
   return (
@@ -52,7 +52,7 @@ const Login = () => {
             required
           />
         </div>
-        {message && <p className="text-green-500">{message}</p>}
+        {error && <p className="text-red-500">{error}</p>}
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"

@@ -1,29 +1,27 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../utils/api.js";
+import { useAuth } from "../../context/AuthContext";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { register } = useAuth();
 
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send a request to your backend API
-    // For this example, we'll just simulate a successful registration
     try {
-      const response = await API.post("/user/register", {
-        username,
-        email,
-        password,
-      });
-      setMessage(response.data.message);
-      alert(response.data.message + " Redirecting to Login...")
-      navigate("/login")
+      await register(username, email, password);
+      alert(response.data.message + " Redirecting to Login...");
+      navigate("/login");
     } catch (error) {
-      setMessage(error.response?.data?.message || "Registration Failed");
+      console.log("Registration Error", error)
+      setError(
+        error.response?.data?.message ||
+          "Registration Failed. Please try again."
+      );
     }
   }
   return (
@@ -69,7 +67,7 @@ const Register = () => {
             required
           />
         </div>
-        {message && <p className="text-green-500">{message}</p>}
+        {error && <p className="text-red-500">{error}</p>}
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
