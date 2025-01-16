@@ -1,27 +1,32 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import API from "../utils/api.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { login } = useAuth();
 
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
-      alert(response.data.message + " Redirecting to Dashboard...");
-      navigate("/blog");
+      const response = await API.post("/user/login", { email, password });
+      // console.log(response)
+      const { token } =  response.data;
+      console.log(token)
+      console.log(response.data.user?.username)
+      
+      // localStorage.setItem("token", token);
+      // alert(response.data.message + " Redirecting to Dashboard...");
+      // navigate("/blog");
     } catch (error) {
       setError(
         error.response?.data?.message ||
           "Login Failed. Please check your credentials."
       );
     }
-  }
+  };
   return (
     <div className="max-w-md mx-auto mt-10">
       <h2 className="text-2xl font-bold mb-5 text-center">Login</h2>

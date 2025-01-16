@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import API from "../utils/api.js";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -8,22 +8,26 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { register } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      await register(username, email, password);
+      const response = await API.post("/user/register", {
+        username,
+        email,
+        password,
+      });
       alert(response.data.message + " Redirecting to Login...");
       navigate("/login");
     } catch (error) {
-      console.log("Registration Error", error)
+      console.log("Registration Error", error);
       setError(
         error.response?.data?.message ||
           "Registration Failed. Please try again."
       );
     }
-  }
+  };
   return (
     <div className="max-w-md mx-auto mt-10">
       <h2 className="text-2xl font-bold mb-5 text-center">Register</h2>

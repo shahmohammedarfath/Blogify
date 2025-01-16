@@ -8,6 +8,7 @@ import BlogPost from "./components/blog/BlogPost.jsx";
 import Register from "./components/auth/Register.jsx";
 import Login from "./components/auth/Login.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import CreateBlog from "./components/blog/CreateBlog.jsx";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/blog" element={<BlogList />} />
               <Route path="/blog/:id" element={<BlogPost />} />
+              <Route path="/create-blog" element={<CreateBlog />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
             </Routes>
