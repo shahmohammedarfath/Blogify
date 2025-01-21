@@ -9,22 +9,28 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await API.post("/user/login", { email, password });
-      const { token, username: loggedInUsername } = response.data;
+
+      const { token } = response.data;
+      const { username } = response.data.user;
+
       localStorage.setItem("token", token);
-      setUser(loggedInUsername);
+      setUser(username);
+      alert(response.data.message + " Redirecting to Dashboard")
+        
     } catch (error) {
       throw new Error("Login Failed");
     }
   };
 
-  const register = async () => {
+  const register = async (username, email, password) => {
     try {
       const response = await API.post("/user/register", {
         username,
         email,
         password,
       });
-      console.log(response)
+      alert(response.data.message + " Redirecting to login");
+      // console.log(response.data.message)
     } catch (error) {
       throw new Error("Registration Failed");
     }

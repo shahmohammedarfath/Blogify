@@ -26,7 +26,7 @@ function App() {
               <Route path="/login" element={<Login />} />
             </Routes>
           </main>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </Router>
     </AuthProvider>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../utils/api.js";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -9,16 +10,18 @@ const Register = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const { register } = useAuth();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await API.post("/user/register", {
-        username,
-        email,
-        password,
-      });
-      alert(response.data.message + " Redirecting to Login...");
+      const response = await register(username, email, password)
+      // const response = await API.post("/user/register", {
+      //   username,
+      //   email,
+      //   password,
+      // });
       navigate("/login");
     } catch (error) {
       console.log("Registration Error", error);

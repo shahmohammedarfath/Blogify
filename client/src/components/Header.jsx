@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   return (
     <header className="bg-gray-800 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
@@ -24,11 +24,16 @@ const Header = () => {
             </li>
             { user ? (
               <>
+              <li>
+                  <Link to="/create-blog" className="hover:text-gray-300">
+                    Create Post
+                  </Link>
+                </li>
                 <li>
                   <span className="text-gray-300">Welcome, {user}</span>
                 </li>
                 <li>
-                  <button className="hover:text-gray-300">Logout</button>
+                  <button onClick={logout} className="hover:text-gray-300">Logout</button>
                 </li>
               </>
             ) : (
