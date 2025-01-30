@@ -1,10 +1,29 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import API from "../components/utils/api.js";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     API.get("/user/profile")
+  //       .then((response) => {
+  //         // setUser({
+  //         //   username: response.data.username,
+  //         //   email: response.data.email,
+  //         // });
+
+  //         console.log(response);
+
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching user data:", error);
+  //       });
+  //   }
+  // }, []);
 
   const login = async (email, password) => {
     try {
@@ -15,8 +34,7 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.setItem("token", token);
       setUser(username);
-      alert(response.data.message + " Redirecting to Dashboard")
-        
+      alert(response.data.message + " Redirecting to Dashboard");
     } catch (error) {
       throw new Error("Login Failed");
     }

@@ -78,7 +78,7 @@ const loginUser = async (req, res) => {
 
 const profileDetails = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.id).select("-password");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -91,4 +91,25 @@ const profileDetails = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, profileDetails };
+const updateProfileDetails = async (req, res) => {
+  try {
+    const { profilePicture, bio, socialLinks } = req.body;
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.profilePicture = profilePicture || user.profilePicture;
+    user.bio = bio || user.bio;
+    user.socialLinks = socialLinks || user.socialLinks;
+
+    await user.save();
+    res.json(user);
+  } catch (error) {
+    console.error("Error when updating Profile ", error);
+    res.status(500).json({ messaeg: "Internal Server Error" });
+  }
+};
+
+export { registerUser, loginUser, profileDetails, updateProfileDetails };

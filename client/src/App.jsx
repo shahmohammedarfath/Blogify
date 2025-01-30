@@ -9,6 +9,8 @@ import Register from "./components/auth/Register.jsx";
 import Login from "./components/auth/Login.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import CreateBlog from "./components/blog/CreateBlog.jsx";
+import Profile from "./components/auth/Profile.jsx";
+import TestProfile from "./components/auth/TestProfile.jsx";
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
               <Route path="/create-blog" element={<CreateBlog />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/profile" element={<TestProfile />} />
             </Routes>
           </main>
           {/* <Footer /> */}

@@ -30,6 +30,11 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link to="/profile" className="hover:text-gray-300">
+                    Profile
+                  </Link>
+                </li>
+                <li>
                   <span className="text-gray-300">Welcome, {user}</span>
                 </li>
                 <li>
