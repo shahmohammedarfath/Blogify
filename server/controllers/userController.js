@@ -94,18 +94,18 @@ const profileDetails = async (req, res) => {
 const updateProfileDetails = async (req, res) => {
   try {
     const { profilePicture, bio, socialLinks } = req.body;
-    const user = await User.findById(req.user.id);
+    const updatedUser = await User.findById(req.user.id).select("-password");
 
-    if (!user) {
+    if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    user.profilePicture = profilePicture || user.profilePicture;
-    user.bio = bio || user.bio;
-    user.socialLinks = socialLinks || user.socialLinks;
+    updatedUser.profilePicture = profilePicture || updatedUser.profilePicture;
+    updatedUser.bio = bio || updatedUser.bio;
+    updatedUser.socialLinks = socialLinks || updatedUser.socialLinks;
 
-    await user.save();
-    res.json(user);
+    await updatedUser.save();
+    res.json(updatedUser);
   } catch (error) {
     console.error("Error when updating Profile ", error);
     res.status(500).json({ messaeg: "Internal Server Error" });

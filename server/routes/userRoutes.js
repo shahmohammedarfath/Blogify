@@ -12,6 +12,6 @@ const router = express.Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/profile", authenticateUser, profileDetails);
-router.put("/profile", updateProfileDetails);
+router.put("/profile", authenticateUser, updateProfileDetails);
 
 export default router;

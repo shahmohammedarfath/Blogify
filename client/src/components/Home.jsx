@@ -10,7 +10,7 @@ const Home = () => {
       <h1 className="text-4xl font-bold mb-4">Welcome to Blogify</h1>
       {user ? (
         <p className="text-xl mb-6">
-          Hello, {user}! Ready to explore some amazing stories?
+          Hello, {user.username}! Ready to explore some amazing stories?
         </p>
       ) : (
         <p className="text-xl mb-8">

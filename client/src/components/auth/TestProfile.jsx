@@ -11,22 +11,36 @@ const TestProfile = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-       const token = localStorage.getItem("token")
-       console.log(token)
-
-       if (token) {
-        try {
-            const response = await API.get("/user/profile")
-            console.log(response)
-            setProfile(response.data)
-        } catch (error) {
-            console.error("Error fetching profile:", error)
-        }
-       }
+      try {
+        const token = localStorage.getItem("token");
+        const response = await API.get("/user/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setProfile(response.data);
+      } catch (error) {
+        console.error("Error fetching profile", error);
+      }
     };
 
     fetchProfile();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchProfile = async () => {
+  //     try {
+  //       const token = localStorage.getItem("token")
+  //       const response = await API.get("/user/profile", {
+  //         headers: { Authorization: `Bearer ${token}`}
+  //       })
+  //       console.log(response);
+
+  //     } catch (error) {
+  //       console.log("Failed to fetch or update profile.", error)
+  //     }
+  //   }
+
+  //   fetchProfile()
+  // }, [])
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -35,7 +49,10 @@ const TestProfile = () => {
 
   const handleSave = async () => {
     try {
-      const response = await API.put("/user-profile", editedProfile);
+      const token = localStorage.getItem("token")
+      const response = await API.put("/user/profile", editedProfile, {
+        headers: { Authorization: `Bearer ${token}`}
+      });
       setProfile(response.data);
       setIsEditing(false);
     } catch (error) {
@@ -125,6 +142,14 @@ const TestProfile = () => {
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Social Links
             </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              type="text"
+              name="website"
+              placeholder="Website"
+              value={editedProfile.socialLinks?.website || ""}
+              onChange={handleSocialLinkChange}
+            />
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
               type="text"

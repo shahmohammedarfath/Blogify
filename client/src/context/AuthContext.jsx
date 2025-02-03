@@ -7,33 +7,51 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     API.get("/user/profile")
-  //       .then((response) => {
-  //         // setUser({
-  //         //   username: response.data.username,
-  //         //   email: response.data.email,
-  //         // });
-
-  //         console.log(response);
-
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching user data:", error);
+  //   const fetchProfile = async () => {
+  //     try {
+  //       const token = localStorage.getItem("token");
+  //       const response = await API.get("/user/profile", {
+  //         headers: { Authorization: `Bearer ${token}` },
   //       });
-  //   }
+  //       console.log(response);
+
+  //       console.log(response.data);
+  //     } catch (error) {
+  //       console.log("Failed to fetch or update profile.", error);
+  //     }
+  //   };
   // }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      API.get("/user/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((response) => {
+          setUser({
+            username: response.data.username,
+            email: response.data.email
+          });
+
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+          localStorage.removeItem("token");
+        });
+    }
+  }, []);
 
   const login = async (email, password) => {
     try {
       const response = await API.post("/user/login", { email, password });
 
       const { token } = response.data;
-      const { username } = response.data.user;
+      const { username, email: userEmail } = response.data.user;
 
       localStorage.setItem("token", token);
-      setUser(username);
+      setUser({ username, email: userEmail });
       alert(response.data.message + " Redirecting to Dashboard");
     } catch (error) {
       throw new Error("Login Failed");

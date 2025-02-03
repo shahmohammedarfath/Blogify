@@ -22,9 +22,9 @@ const Header = () => {
                 Blog
               </Link>
             </li>
-            { user ? (
+            {user ? (
               <>
-              <li>
+                <li>
                   <Link to="/create-blog" className="hover:text-gray-300">
                     Create Post
                   </Link>
@@ -35,10 +35,14 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <span className="text-gray-300">Welcome, {user}</span>
+                  <span className="text-gray-300">
+                    Welcome, {user.username}
+                  </span>
                 </li>
                 <li>
-                  <button onClick={logout} className="hover:text-gray-300">Logout</button>
+                  <button onClick={logout} className="hover:text-gray-300">
+                    Logout
+                  </button>
                 </li>
               </>
             ) : (
