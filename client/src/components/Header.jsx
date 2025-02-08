@@ -1,66 +1,85 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Button } from "./ui/button";
+import { useTheme } from "@/context/ThemeContext";
+import { MoonIcon, SunIcon } from "lucide-react";
 
 const Header = () => {
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   return (
-    <header className="bg-gray-800 text-white p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="text-2xl font-bold">
-          <Link to="/">Blogify</Link>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-14 items-center">
+        <div className="mr-4 hidden md:flex">
+          <Link to="/" className="mr-6 flex items-center space-x-2">
+            <span className="hidden font-bold sm:inline-block">Blogify</span>
+          </Link>
+          <nav className="flex items-center space-x-6 text-sm font-medium">
+            <Link
+              to="/"
+              className="transition-colors text-foreground/60 hover:text-foreground/80"
+            >
+              Home
+            </Link>
+
+            <Link
+              to="/blog"
+              className="transition-colors text-foreground/60 hover:text-foreground/80"
+            >
+              Blog
+            </Link>
+            {user && (
+              <Link
+                to="/create-blog"
+                className="transition-colors text-foreground/60 hover:text-foreground/80"
+              >
+                Create Post
+              </Link>
+            )}
+          </nav>
         </div>
-        <nav>
-          <ul className="flex space-x-4">
-            <li>
-              <Link to="/" className="hover:text-gray-300">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/blog" className="hover:text-gray-300">
-                Blog
-              </Link>
-            </li>
+        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+          <nav className="flex items-center">
             {user ? (
               <>
-                <li>
-                  <Link to="/create-blog" className="hover:text-gray-300">
-                    Create Post
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/profile" className="hover:text-gray-300">
-                    Profile
-                  </Link>
-                </li>
-                <li>
-                  <span className="text-gray-300">
-                    Welcome, {user.username}
-                  </span>
-                </li>
-                <li>
-                  <button onClick={logout} className="hover:text-gray-300">
-                    Logout
-                  </button>
-                </li>
+                <Link
+                  to="/profile"
+                  className="transition-colors text-foreground/60 hover:text-foreground/80 px-4"
+                >
+                  Profile
+                </Link>
+
+                <span className="transition-colors text-foreground/60 hover:text-foreground/80 px-4">
+                  Welcome, {user.username}
+                </span>
+
+                <Button variant="ghost" onClick={logout}>
+                  Logout
+                </Button>
               </>
             ) : (
               <>
-                <li>
-                  <Link to="/login" className="text-gray-300">
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/register" className="text-gray-300">
-                    Register
-                  </Link>
-                </li>
+                <Link
+                  to="/login"
+                  className="transition-colors text-foreground/60 hover:text-foreground/80 px-4"
+                >
+                  Login
+                </Link>
+
+                <Link
+                  to="/register"
+                  className="transition-colors text-foreground/60 hover:text-foreground/80 px-4"
+                >
+                  Register
+                </Link>
               </>
             )}
-          </ul>
-        </nav>
+          </nav>
+          <Button variant="ghost" size="icon" onClick={toggleTheme}>
+            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+          </Button>
+        </div>
       </div>
     </header>
   );

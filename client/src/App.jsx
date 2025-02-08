@@ -8,30 +8,34 @@ import BlogPost from "./components/blog/BlogPost.jsx";
 import Register from "./components/auth/Register.jsx";
 import Login from "./components/auth/Login.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
 import CreateBlog from "./components/blog/CreateBlog.jsx";
-import Profile from "./components/auth/Profile.jsx";
+// import Profile from "./components/auth/Profile.jsx";
 import TestProfile from "./components/auth/TestProfile.jsx";
+// import TextEditor from "./components/TextEditor.jsx";
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="flex-col min-h-screen">
-          <Header />
-          <main className="flex-1 p-8 my-0 mx-auto">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/blog" element={<BlogList />} />
-              <Route path="/blog/:id" element={<BlogPost />} />
-              <Route path="/create-blog" element={<CreateBlog />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/profile" element={<TestProfile />} />
-            </Routes>
-          </main>
-          {/* <Footer /> */}
-        </div>
-      </Router>
+      <ThemeProvider>
+        <Router>
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-grow container mx-auto px-4 py-8">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/blog" element={<BlogList />} />
+                <Route path="/blog/:id" element={<BlogPost />} />
+                <Route path="/create-blog" element={<CreateBlog />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/profile" element={<TestProfile />} />
+              </Routes>
+            </main>
+            {/* <Footer /> */}
+          </div>
+        </Router>
+      </ThemeProvider>
     </AuthProvider>
   );
 }

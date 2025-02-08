@@ -2,6 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import API from "../utils/api";
+import { Card, CardHeader, CardTitle } from "../ui/card.jsx";
+import { Button } from "../ui/button.jsx";
+import { Label } from "../ui/label.jsx";
+import { Input } from "../ui/input.jsx";
+import { Textarea } from "../ui/textarea.jsx";
 
 const TestProfile = () => {
   const { user } = useAuth();
@@ -49,9 +54,9 @@ const TestProfile = () => {
 
   const handleSave = async () => {
     try {
-      const token = localStorage.getItem("token")
+      const token = localStorage.getItem("token");
       const response = await API.put("/user/profile", editedProfile, {
-        headers: { Authorization: `Bearer ${token}`}
+        headers: { Authorization: `Bearer ${token}` },
       });
       setProfile(response.data);
       setIsEditing(false);
@@ -80,126 +85,84 @@ const TestProfile = () => {
   };
 
   if (!user || !profile) {
-    return <div>Loading...</div>;
+    return <div className="text-center mt-8">Loading...</div>;
   }
 
   return (
-    <div className="max-w-2xl mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">User Profile</h2>
+    <Card className="max-w-2xl mx-auto p-10 mt-8">
+      <CardHeader>
+        <CardTitle className="text-2xl text-center">User Profile</CardTitle>
+      </CardHeader>
       {isEditing ? (
         <form
           onSubmit={(e) => {
             e.preventDefault();
             handleSave();
           }}
+          className="space-y-4"
         >
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="username"
-            >
-              Username
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
-              type="text"
-              value={profile.username}
-              disabled
-            />
+          <div className="space-y-2">
+            <Label htmlFor="username">Username</Label>
+            <Input id="username" value={profile.username} disabled />
           </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="email"
-              type="email"
-              value={profile.email}
-              disabled
-            />
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" value={profile.email} disabled />
           </div>
-          <div className="mb-4">
-            <label
+          <div className="space-y-2">
+            <Label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="bio"
             >
               Bio
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            </Label>
+            <Textarea
               id="bio"
               name="bio"
               value={editedProfile.bio || ""}
               onChange={handleChange}
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Social Links
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
+          <div className="space-y-2">
+            <Label>Social Links</Label>
+            <Input
               name="website"
               placeholder="Website"
               value={editedProfile.socialLinks?.website || ""}
               onChange={handleSocialLinkChange}
             />
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
-              type="text"
+            <Input
               name="twitter"
               placeholder="Twitter"
               value={editedProfile.socialLinks?.twitter || ""}
               onChange={handleSocialLinkChange}
             />
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
-              type="text"
+            <Input
               name="linkedin"
               placeholder="LinkedIn"
               value={editedProfile.socialLinks?.linkedin || ""}
               onChange={handleSocialLinkChange}
             />
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
+            <Input
               name="github"
               placeholder="GitHub"
               value={editedProfile.socialLinks?.github || ""}
               onChange={handleSocialLinkChange}
             />
           </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="profileImage"
-            >
-              Profile Image URL
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <div className="space-y-2">
+            <Label htmlFor="profileImage">Profile Image URL</Label>
+            <Input
               id="profileImage"
               name="profileImage"
-              type="text"
               value={editedProfile.profileImage || ""}
               onChange={handleChange}
             />
           </div>
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            Save
-          </button>
+          <Button type="submit">Save</Button>
         </form>
       ) : (
-        <div>
+        <div className="space-y-4">
           <p>
             <strong>Username:</strong> {profile.username}
           </p>
@@ -226,15 +189,10 @@ const TestProfile = () => {
               className="mt-4 w-32 h-32 rounded-full"
             />
           )}
-          <button
-            className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            onClick={handleEdit}
-          >
-            Edit Profile
-          </button>
+          <Button onClick={handleEdit}>Edit Profile</Button>
         </div>
       )}
-    </div>
+    </Card>
   );
 };
 

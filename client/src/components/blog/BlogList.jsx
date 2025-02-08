@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API from "../utils/api.js";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card.jsx";
 
 const BlogList = () => {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -35,29 +42,33 @@ const BlogList = () => {
       {blogPosts.length === 0 ? (
         <p className="text-center">No blog posts available.</p>
       ) : (
-        <ul className="space-y-6">
+        <div className="grid-gap-6 md:grid-cols-2">
           {blogPosts.map((post) => (
-            <li key={post._id} className="bg-white shadow-md rounded-lg p-6">
-              <h3 className="text-xl font-semibold mb-2">
-                <Link
-                  to={`/blog/${post._id}`}
-                  className="text-blue-600 hover:text-blue-800"
-                >
-                  {post.title}
-                </Link>
-              </h3>
-              <p className="text-gray-600 mb-4">
-                {post.content.length > 150
-                  ? `${post.content.substring(0, 150)}...`
-                  : post.content}
-              </p>
-              <div className="flex justify-between items-center text-sm text-gray-500">
+            <Card key={post._id} className="mb-4">
+              <CardHeader>
+                <CardTitle>
+                  <Link
+                    to={`/blog/${post._id}`}
+                    className="text-primary hover:text-primary/80 transition-colors blog-title"
+                  >
+                    {post.title}
+                  </Link>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="blog-content">
+                  {post.content.length > 150
+                    ? `${post.content.substring(0, 150)}...`
+                    : post.content}
+                </p>
+              </CardContent>
+              <CardFooter className="flex justify-between blog-meta">
                 <span>By {post.author?.username || "Anonymous"}</span>
                 <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-              </div>
-            </li>
+              </CardFooter>
+            </Card>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
