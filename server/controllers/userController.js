@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
+import Blog from "../models/blogModel.js";
 
 const registerUser = async (req, res) => {
   try {
@@ -78,13 +79,22 @@ const loginUser = async (req, res) => {
 
 const profileDetails = async (req, res) => {
   try {
+
+    const userId = req.user.id;
     const user = await User.findById(req.user.id).select("-password");
+
+    
+    const blogs = await Blog.find({ author: userId }).sort({ createdAt: -1 });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json(user);
+    if (!blogs) {
+      return res.status(404).json({ message: "Blogs not found" });
+    }
+
+    res.status(200).json({ user, blogs });
   } catch (error) {
     console.error("Error at Profile ", error);
     res.status(500).json({ messaeg: "Internal Server Error" });

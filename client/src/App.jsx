@@ -12,6 +12,7 @@ import { ThemeProvider } from "./context/ThemeContext.jsx";
 import CreateBlog from "./components/blog/CreateBlog.jsx";
 // import Profile from "./components/auth/Profile.jsx";
 import TestProfile from "./components/auth/TestProfile.jsx";
+// import ProtectedRoute from "./components/ProtectedRoute";
 // import TextEditor from "./components/TextEditor.jsx";
 
 function App() {
@@ -26,7 +27,14 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/blog" element={<BlogList />} />
                 <Route path="/blog/:id" element={<BlogPost />} />
-                <Route path="/create-blog" element={<CreateBlog />} />
+                <Route
+                  path="/create-blog"
+                  element={
+                    // <ProtectedRoute>
+                      <CreateBlog />
+                    // </ProtectedRoute>
+                  }
+                />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/profile" element={<TestProfile />} />

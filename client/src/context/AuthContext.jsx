@@ -30,8 +30,8 @@ export const AuthProvider = ({ children }) => {
       })
         .then((response) => {
           setUser({
-            username: response.data.username,
-            email: response.data.email
+            username: response.data.user.username,
+            email: response.data.user.email
           });
 
           console.log(response);

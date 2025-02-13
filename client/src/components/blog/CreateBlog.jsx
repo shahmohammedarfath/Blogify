@@ -6,6 +6,8 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const CreateBlog = () => {
   const [title, setTitle] = useState("");
@@ -34,6 +36,33 @@ const CreateBlog = () => {
       setError("Failed to create blog. Please try again.");
     }
   };
+
+  // Quill Toolbar
+  const modules = {
+    toolbar: [
+      [{ font: [] }, { header: "1" }, { header: "2" }],
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["code-block"],
+      ["link", "image"],
+      [{ align: [] }],
+      ["clean"],
+    ],
+  };
+
+  const formats = [
+    "header",
+    "font",
+    "list",
+    "code-block",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "link",
+    "image",
+    "align",
+  ];
   return (
     <Card className="max-w-2xl mx-auto mt-8">
       <CardHeader>
@@ -61,15 +90,23 @@ const CreateBlog = () => {
           </div>
           <div>
             <Label htmlFor="content">Content</Label>
-            <Textarea
+            {/* <Textarea
               id="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               required
               rows={10}
-            ></Textarea>
+            ></Textarea> */}
 
             {/* Rich Text Editor */}
+
+            <ReactQuill
+              theme="snow"
+              value={content}
+              onChange={setContent}
+              modules={modules}
+              formats={formats}
+            />
           </div>
           <Button type="submit">Create Post</Button>
         </form>

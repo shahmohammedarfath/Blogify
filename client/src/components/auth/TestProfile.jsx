@@ -2,7 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import API from "../utils/api";
-import { Card, CardHeader, CardTitle } from "../ui/card.jsx";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card.jsx";
+import { Link } from "react-router-dom";
 import { Button } from "../ui/button.jsx";
 import { Label } from "../ui/label.jsx";
 import { Input } from "../ui/input.jsx";
@@ -11,6 +18,7 @@ import { Textarea } from "../ui/textarea.jsx";
 const TestProfile = () => {
   const { user } = useAuth();
   const [profile, setProfile] = useState(null);
+  const [userBlogs, setUserBlogs] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState({});
 
@@ -21,7 +29,8 @@ const TestProfile = () => {
         const response = await API.get("/user/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setProfile(response.data);
+        setProfile(response.data.user);
+        setUserBlogs(response.data.blogs);
       } catch (error) {
         console.error("Error fetching profile", error);
       }
@@ -89,10 +98,7 @@ const TestProfile = () => {
   }
 
   return (
-    <Card className="max-w-2xl mx-auto p-10 mt-8">
-      <CardHeader>
-        <CardTitle className="text-2xl text-center">User Profile</CardTitle>
-      </CardHeader>
+    <>
       {isEditing ? (
         <form
           onSubmit={(e) => {
@@ -162,37 +168,71 @@ const TestProfile = () => {
           <Button type="submit">Save</Button>
         </form>
       ) : (
-        <div className="space-y-4">
-          <p>
-            <strong>Username:</strong> {profile.username}
-          </p>
-          <p>
-            <strong>Email:</strong> {profile.email}
-          </p>
-          <p>
-            <strong>Bio:</strong> {profile.bio || "No bio provided"}
-          </p>
-          <div>
-            <strong>Social Links:</strong>
-            <ul>
-              <li>Twitter: {profile.socialLinks.twitter || "Not provided"}</li>
-              <li>
-                LinkedIn: {profile.socialLinks.linkedin || "Not provided"}
-              </li>
-              <li>GitHub: {profile.socialLinks.github || "Not provided"}</li>
-            </ul>
+        <>
+          <Card className="max-w-2xl mx-auto px-7 py-5 mt-6">
+            <div className="space-y-4">
+              <p>
+                <strong>Username:</strong> {profile.username}
+              </p>
+              <p>
+                <strong>Email:</strong> {profile.email}
+              </p>
+              <p>
+                <strong>Bio:</strong> {profile.bio || "No bio provided"}
+              </p>
+              <div>
+                <strong>Social Links:</strong>
+                <ul>
+                  <li>
+                    Twitter: {profile.socialLinks.twitter || "Not provided"}
+                  </li>
+                  <li>
+                    LinkedIn: {profile.socialLinks.linkedin || "Not provided"}
+                  </li>
+                  <li>
+                    GitHub: {profile.socialLinks.github || "Not provided"}
+                  </li>
+                </ul>
+              </div>
+              {profile.profileImage && (
+                <img
+                  src={profile.profileImage || "/placeholder.svg"}
+                  alt="Profile"
+                  className="mt-4 w-32 h-32 rounded-full"
+                />
+              )}
+              <Button onClick={handleEdit}>Edit Profile</Button>
+            </div>
+          </Card>
+
+          {/* // Blogs for LoggedInUser */}
+
+          <div className="">
+            <h2 className="text-2xl text-center font-bold my-4">Your Blogs</h2>
+            {userBlogs.length === 0 ? (
+              <p>No blogs created</p>
+            ) : (
+              <div>
+                {userBlogs.map((blog) => (
+                  <Card key={blog._id} className="mb-4">
+                    <CardHeader>
+                      <CardTitle>
+                        <Link to={`/blog/${blog._id}`}>{blog.title}</Link>
+                      </CardTitle>
+                    </CardHeader>
+
+                    <CardFooter className="gap-2">
+                      <Button>Edit</Button>
+                      <Button variant="destructive">Delete</Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            )}
           </div>
-          {profile.profileImage && (
-            <img
-              src={profile.profileImage || "/placeholder.svg"}
-              alt="Profile"
-              className="mt-4 w-32 h-32 rounded-full"
-            />
-          )}
-          <Button onClick={handleEdit}>Edit Profile</Button>
-        </div>
+        </>
       )}
-    </Card>
+    </>
   );
 };
 

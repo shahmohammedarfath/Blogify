@@ -13,7 +13,7 @@ const BlogPost = () => {
       try {
         const response = await API.get(`/blog/${id}`);
         console.log("Fetched Blog: ", response);
-        setBlogPost(response.data)
+        setBlogPost(response.data);
         setIsLoading(false);
       } catch (error) {
         setError("Failed to fetch blog post. Please try again later.");
@@ -36,7 +36,10 @@ const BlogPost = () => {
     return <div className="text-center mt-8">Blog post not found.</div>;
   }
   return (
-    <div className="max-w-3xl mx-auto mt-8">
+    <div
+      className="max-w-3xl mx-auto mt-8"
+      // dangerouslySetInnerHTML={{ __html: blogPost.content }}
+    >
       <h1 className="text-4xl font-bold mb-4">{blogPost.title}</h1>
       <div className="mb-6 text-gray-600">
         <span>By {blogPost.author?.username || "Anonymous"}</span>
