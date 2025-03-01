@@ -13,26 +13,26 @@ const Header = () => {
       <div className="container flex h-14 items-center">
         <div className="mr-4 hidden md:flex">
           <Link to="/" className="mr-6 flex items-center space-x-2">
-            <span className="hidden font-bold sm:inline-block">Blogify</span>
+            <span className="hidden font-bold sm:inline-block text-2xl">Blogify</span>
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">
             <Link
               to="/"
-              className="transition-colors text-foreground/60 hover:text-foreground/80"
+              className="transition-colors text-foreground/60 hover:text-foreground/80 hover:underline text-lg"
             >
               Home
             </Link>
 
             <Link
               to="/blog"
-              className="transition-colors text-foreground/60 hover:text-foreground/80"
+              className="transition-colors text-foreground/60 hover:text-foreground/80 hover:underline text-lg"
             >
-              Blog
+              Blogs
             </Link>
             {user && (
               <Link
                 to="/create-blog"
-                className="transition-colors text-foreground/60 hover:text-foreground/80"
+                className="transition-colors text-foreground/60 hover:text-foreground/80 hover:underline text-lg"
               >
                 Create Post
               </Link>

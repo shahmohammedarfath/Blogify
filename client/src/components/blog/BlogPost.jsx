@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import API from "../utils/api.js";
+import "react-quill/dist/quill.snow.css";
 
 const BlogPost = () => {
   const { id } = useParams();
@@ -12,7 +13,6 @@ const BlogPost = () => {
     const fetchBlog = async () => {
       try {
         const response = await API.get(`/blog/${id}`);
-        console.log("Fetched Blog: ", response);
         setBlogPost(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -36,23 +36,18 @@ const BlogPost = () => {
     return <div className="text-center mt-8">Blog post not found.</div>;
   }
   return (
-    <div
-      className="max-w-3xl mx-auto mt-8"
-      // dangerouslySetInnerHTML={{ __html: blogPost.content }}
-    >
+    <div className="max-w-3xl mx-auto mt-8">
       <h1 className="text-4xl font-bold mb-4">{blogPost.title}</h1>
       <div className="mb-6 text-gray-600">
         <span>By {blogPost.author?.username || "Anonymous"}</span>
         <span className="mx-2">•</span>
         <span>{new Date(blogPost.createdAt).toLocaleDateString()}</span>
       </div>
-      <div className="prose max-w-none">
-        {blogPost.content.split("\n").map((paragraph, index) => (
-          <p key={index} className="mb-4">
-            {paragraph}
-          </p>
-        ))}
-      </div>
+
+      <div
+        className="prose max-w-none"
+        dangerouslySetInnerHTML={{ __html: blogPost.content }}
+      />
     </div>
   );
 };

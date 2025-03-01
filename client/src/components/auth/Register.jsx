@@ -17,11 +17,6 @@ const Register = () => {
 
     try {
       const response = await register(username, email, password)
-      // const response = await API.post("/user/register", {
-      //   username,
-      //   email,
-      //   password,
-      // });
       navigate("/login");
     } catch (error) {
       console.log("Registration Error", error);

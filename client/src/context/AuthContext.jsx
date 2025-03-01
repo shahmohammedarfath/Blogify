@@ -6,22 +6,6 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchProfile = async () => {
-  //     try {
-  //       const token = localStorage.getItem("token");
-  //       const response = await API.get("/user/profile", {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //       });
-  //       console.log(response);
-
-  //       console.log(response.data);
-  //     } catch (error) {
-  //       console.log("Failed to fetch or update profile.", error);
-  //     }
-  //   };
-  // }, []);
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -31,10 +15,8 @@ export const AuthProvider = ({ children }) => {
         .then((response) => {
           setUser({
             username: response.data.user.username,
-            email: response.data.user.email
+            email: response.data.user.email,
           });
-
-          console.log(response);
         })
         .catch((error) => {
           console.error("Error fetching user data:", error);
@@ -66,7 +48,6 @@ export const AuthProvider = ({ children }) => {
         password,
       });
       alert(response.data.message + " Redirecting to login");
-      // console.log(response.data.message)
     } catch (error) {
       throw new Error("Registration Failed");
     }

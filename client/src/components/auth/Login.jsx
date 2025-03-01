@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../utils/api.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 const Login = () => {
@@ -13,18 +12,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password)
-
-      // const response = await API.post("/user/login", { email, password });
-      // console.log(response)
-      // const { token } =  response.data;
-      // console.log(token)
-      // console.log(response.data.user?.username)
-      
-      // localStorage.setItem("token", token);
-      // alert(response.data.message + " Redirecting to Dashboard...");
-      // setEmail("")
-      // setPassword("")
+      await login(email, password);
       navigate("/blog");
     } catch (error) {
       setError(

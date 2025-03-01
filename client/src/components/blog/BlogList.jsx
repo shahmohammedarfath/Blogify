@@ -56,11 +56,21 @@ const BlogList = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="blog-content">
-                  {post.content.length > 150
-                    ? `${post.content.substring(0, 150)}...`
-                    : post.content}
-                </p>
+                <div
+                  className="blog-content"
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      post.content.length > 150
+                        ? post.content.substring(0, 150) + "..."
+                        : post.content,
+                  }}
+                />
+                <Link
+                  to={`/blog/${post._id}`}
+                  className="text-blue-500 hover:underline"
+                >
+                  Read More
+                </Link>
               </CardContent>
               <CardFooter className="flex justify-between blog-meta">
                 <span>By {post.author?.username || "Anonymous"}</span>

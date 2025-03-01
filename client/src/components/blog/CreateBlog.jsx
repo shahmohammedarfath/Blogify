@@ -1,19 +1,23 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { forwardRef, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+
+const QuillEditor = forwardRef((props, ref) => (
+  <ReactQuill ref={ref} {...props} />
+));
 
 const CreateBlog = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const quillRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,17 +94,11 @@ const CreateBlog = () => {
           </div>
           <div>
             <Label htmlFor="content">Content</Label>
-            {/* <Textarea
-              id="content"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              required
-              rows={10}
-            ></Textarea> */}
 
             {/* Rich Text Editor */}
 
             <ReactQuill
+              ref={quillRef}
               theme="snow"
               value={content}
               onChange={setContent}

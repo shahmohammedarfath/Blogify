@@ -10,10 +10,8 @@ import Login from "./components/auth/Login.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import CreateBlog from "./components/blog/CreateBlog.jsx";
-// import Profile from "./components/auth/Profile.jsx";
-import TestProfile from "./components/auth/TestProfile.jsx";
-// import ProtectedRoute from "./components/ProtectedRoute";
-// import TextEditor from "./components/TextEditor.jsx";
+import Profile from "./components/auth/Profile";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -30,14 +28,14 @@ function App() {
                 <Route
                   path="/create-blog"
                   element={
-                    // <ProtectedRoute>
+                    <ProtectedRoute>
                       <CreateBlog />
-                    // </ProtectedRoute>
+                    </ProtectedRoute>
                   }
                 />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/profile" element={<TestProfile />} />
+                <Route path="/profile" element={<Profile />} />
               </Routes>
             </main>
             {/* <Footer /> */}
