@@ -19,7 +19,6 @@ const Register = () => {
       const response = await register(username, email, password)
       navigate("/login");
     } catch (error) {
-      console.log("Registration Error", error);
       setError(
         error.response?.data?.message ||
           "Registration Failed. Please try again."

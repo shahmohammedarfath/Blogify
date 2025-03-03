@@ -32,8 +32,6 @@ const CreateBlog = () => {
           },
         }
       );
-      console.log(response);
-      console.log(response.data);
       alert("Blog created successfully");
       navigate("/blog");
     } catch (error) {
