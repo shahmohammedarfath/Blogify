@@ -45,7 +45,7 @@ const BlogPost = () => {
       </div>
 
       <div
-        className="prose max-w-none"
+        className="prose max-w-none dark:text-foreground"
         dangerouslySetInnerHTML={{ __html: blogPost.content }}
       />
     </div>

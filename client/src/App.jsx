@@ -12,13 +12,14 @@ import { ThemeProvider } from "./context/ThemeContext.jsx";
 import CreateBlog from "./components/blog/CreateBlog.jsx";
 import Profile from "./components/auth/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+import EditBlog from "./components/blog/EditBlog";
 
 function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
         <Router>
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen dark:bg-background">
             <Header />
             <main className="flex-grow container mx-auto px-4 py-8">
               <Routes>
@@ -33,6 +34,7 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+                <Route path="/edit-blog/:id" element={<EditBlog />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/profile" element={<Profile />} />

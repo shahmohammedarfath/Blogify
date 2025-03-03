@@ -9,18 +9,32 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button.jsx";
 import { Label } from "../ui/label.jsx";
 import { Input } from "../ui/input.jsx";
 import { Textarea } from "../ui/textarea.jsx";
+import { Pencil, Trash } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog.jsx";
 
 const Profile = () => {
   const { user } = useAuth();
   const [profile, setProfile] = useState(null);
-  const [userBlogs, setUserBlogs] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState({});
+  const [userBlogs, setUserBlogs] = useState([]);
+  const [blogToDelete, setBlogToDelete] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -74,6 +88,25 @@ const Profile = () => {
         [name]: value,
       },
     }));
+  };
+
+  const handleEditBlog = (blogId) => {
+    navigate(`/edit-blog/${blogId}`);
+  };
+
+  const handleDeletBlog = async () => {
+    if (blogToDelete) {
+      try {
+        const token = localStorage.getItem("token");
+        await API.delete(`/blog/delete/${blogToDelete}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUserBlogs(userBlogs.filter((blog) => blog._id !== blogToDelete));
+        setBlogToDelete(null);
+      } catch (error) {
+        console.error("Error deleting blog", error);
+      }
+    }
   };
 
   if (!user || !profile) {
@@ -193,20 +226,70 @@ const Profile = () => {
           <div className="">
             <h2 className="text-2xl text-center font-bold my-4">Your Blogs</h2>
             {userBlogs.length === 0 ? (
-              <p>No blogs created</p>
+              <>
+                <p className="text-lg text-center">
+                  Your have not created any blogs yet.
+                </p>
+                <p className="text-lg text-center">
+                  <Link className="text-blue-700" to={"/create-blog"}>
+                    Create{" "}
+                  </Link>
+                  your first blog.
+                </p>
+              </>
             ) : (
               <div>
                 {userBlogs.map((blog) => (
                   <Card key={blog._id} className="mb-4">
                     <CardHeader>
-                      <CardTitle>
+                      <CardTitle className="text-lg">
                         <Link to={`/blog/${blog._id}`}>{blog.title}</Link>
                       </CardTitle>
                     </CardHeader>
 
                     <CardFooter className="gap-2">
-                      <Button>Edit</Button>
-                      <Button variant="destructive">Delete</Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => handleEditBlog(blog._id)}
+                      >
+                        <Pencil className="w-4 h-4 mr-2" />
+                        Edit
+                      </Button>
+
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="destructive"
+                            onClick={() => setBlogToDelete(blog._id)}
+                          >
+                            <Trash />
+                            Delete
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone. This will
+                              permenantly delete your blog.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel
+                              onClick={() => setBlogToDelete(null)}
+                            >
+                              Cancel
+                            </AlertDialogCancel>
+                            <AlertDialogAction onClick={handleDeletBlog}>
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+
+                      {/* <Button variant="destructive" onClick={handleDeletBlog}>
+                        Delete
+                      </Button> */}
                     </CardFooter>
                   </Card>
                 ))}

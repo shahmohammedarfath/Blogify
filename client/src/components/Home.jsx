@@ -7,8 +7,7 @@ const Home = () => {
   const { user } = useAuth();
 
   return (
-    
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] text-center">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] text-center" >
       <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-4">
         Welcome to Blogify
       </h1>
