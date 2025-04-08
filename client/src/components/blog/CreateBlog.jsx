@@ -7,7 +7,10 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+<<<<<<< HEAD
 import API from "../utils/api";
+=======
+>>>>>>> fa364395a3713fd3cf4876c0e73f6cb65c12b67b
 
 const QuillEditor = forwardRef((props, ref) => (
   <ReactQuill ref={ref} {...props} />
