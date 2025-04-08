@@ -33,7 +33,7 @@ const Login = () => {
           {/* <label htmlFor="email" className="block mb-1">
             Email
           </label> */}
-          <Input className="bg-white" type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+          <Input className="bg-white" type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           {/* <input
             type="email"
             id="email"
@@ -59,7 +59,7 @@ const Login = () => {
           /> */}
         </div>
         {error && <p className="text-red-500">{error}</p>}
-            <Button type="submit" className="w-full">Login</Button>
+        <Button type="submit" className="w-full">Login</Button>
         {/* <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
