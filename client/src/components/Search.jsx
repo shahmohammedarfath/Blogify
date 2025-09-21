@@ -6,15 +6,15 @@ import { useSearchParams } from "react-router-dom";
 
 const Search = ({ setBlogPosts }) => {
   const [query, setQuery] = useState("");
-  // const [seachParams, setSearchParams] = useSearchParams();
+  const [seachParams, setSearchParams] = useSearchParams();
 
   const handleSearch = async () => {
     try {
       const trimmedQuery = query.trim();
       if (!trimmedQuery) return;
-      // setSearchParams({ search: trimmedQuery });
-      const res = await API.get(`/blog/search/query?query=${query}`);
-      setBlogPosts(res.data || []);
+      setSearchParams({ search: trimmedQuery });
+      // const res = await API.get(`/blog/search/query?query=${query}`);
+      // setBlogPosts(res.data || []);
     } catch (error) {
       console.error("Error searching blogs", error);
     }

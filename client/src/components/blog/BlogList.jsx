@@ -14,15 +14,23 @@ const BlogList = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  // const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-  // const searchQuery = searchParams.get("search");
+  const searchQuery = searchParams.get("search");
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await API.get("/blog/all");
-        setBlogPosts(response.data.blogs);
+        setIsLoading(true);
+
+        let response;
+        if (searchQuery) {
+          response = await API.get(`/blog/search/query?query=${searchQuery}`);
+          setBlogPosts(response.data);
+        } else {
+          response = await API.get("/blog/all");
+          setBlogPosts(response.data.blogs);
+        }
         setIsLoading(false);
       } catch (error) {
         setError(error.response?.data?.message || "Failed to fetch blogs");
@@ -30,7 +38,21 @@ const BlogList = () => {
       }
     };
     fetchBlogs();
-  }, []);
+  }, [searchQuery]);
+
+  // useEffect(() => {
+  //   const fetchBlogs = async () => {
+  //     try {
+  //       const response = await API.get("/blog/all");
+  //       setBlogPosts(response.data.blogs);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       setError(error.response?.data?.message || "Failed to fetch blogs");
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   fetchBlogs();
+  // }, []);
 
   if (isLoading) {
     return <div className="text-center mt-8">Loading blog posts...</div>;
