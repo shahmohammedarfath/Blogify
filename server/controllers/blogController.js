@@ -128,7 +128,6 @@ const deleteBlog = async (req, res) => {
 const searchBlog = async (req, res) => {
   try {
     const { query } = req.query;
-    console.log("Query params", query);
 
     if (!query) {
       return res.status(400).json({ message: "Search query is required" });
@@ -140,7 +139,8 @@ const searchBlog = async (req, res) => {
         { title: { $regex: query, $options: "i" } },
         { content: { $regex: query, $options: "i" } },
       ],
-    }).select("title content slug author createdAt");
+    }).select("title slug author createdAt content")
+      .populate("author", "username");
 
     res.status(200).json(blogs);
   } catch (error) {
