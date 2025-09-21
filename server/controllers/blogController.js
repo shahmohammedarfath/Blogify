@@ -102,6 +102,7 @@ const updateBlog = async (req, res) => {
   }
 };
 
+// Delete a blog
 const deleteBlog = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
@@ -122,4 +123,36 @@ const deleteBlog = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-export { createBlog, getAllBlogs, getSingleBlog, updateBlog, deleteBlog };
+
+// Search a blog
+const searchBlog = async (req, res) => {
+  try {
+    const { query } = req.query;
+    console.log("Query params", query);
+
+    if (!query) {
+      return res.status(400).json({ message: "Search query is required" });
+    }
+
+    // regex search
+    const blogs = await Blog.find({
+      $or: [
+        { title: { $regex: query, $options: "i" } },
+        { content: { $regex: query, $options: "i" } },
+      ],
+    }).select("title content slug author createdAt");
+
+    res.status(200).json(blogs);
+  } catch (error) {
+    console.log("Search error:", error);
+    res.status(404).json({ message: "Server error" });
+  }
+};
+export {
+  createBlog,
+  getAllBlogs,
+  getSingleBlog,
+  updateBlog,
+  deleteBlog,
+  searchBlog,
+};

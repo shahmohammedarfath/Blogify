@@ -37,7 +37,7 @@ const Register = () => {
           {/* <label htmlFor="username" className="block mb-1">
             Username
           </label> */}
-          <Input className="bg-white" type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          <Input className="" type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
           {/* <input
             type="text"
             id="username"
@@ -52,7 +52,7 @@ const Register = () => {
           {/* <label htmlFor="email" className="block mb-1">
             Email
           </label> */}
-          <Input className="bg-white" type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <Input className="" type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           {/* <input
             type="email"
             id="email"
@@ -67,7 +67,7 @@ const Register = () => {
           {/* <label htmlFor="password" className="block mb-1">
             Password
           </label> */}
-          <Input className="bg-white" type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <Input className="" type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           {/* <input
             type="password"
             id="password"

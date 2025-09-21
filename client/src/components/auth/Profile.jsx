@@ -192,7 +192,7 @@ const Profile = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="username">Username</Label> 
+                <Label htmlFor="username">Username</Label>
                 <Input id="username" value={profile.username} disabled />
               </div>
               <div className="space-y-2">
@@ -217,7 +217,7 @@ const Profile = () => {
                 <Label>Social Links</Label>
                 <Input
                   name="website"
-                  placeholder="Website"
+                  placeholder="website"
                   value={editedProfile.socialLinks?.website || ""}
                   onChange={handleSocialLinkChange}
                 />
@@ -346,6 +346,30 @@ const Profile = () => {
                   <div>
                     <h3 className="font-semibold mb-3">Connect</h3>
                     <div className="flex flex-wrap gap-2">
+                      {profile.socialLinks?.linkedin && (
+                        <Button variant="outline" size="sm" asChild>
+                          <a
+                            href={profile.socialLinks.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Linkedin className="h-4 w-4" />
+                            LinkedIn
+                          </a>
+                        </Button>
+                      )}
+                      {profile.socialLinks?.github && (
+                        <Button variant="outline" size="sm" asChild>
+                          <a
+                            href={profile.socialLinks.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Github className="h-4 w-4" />
+                            GitHub
+                          </a>
+                        </Button>
+                      )}
                       {profile.socialLinks?.website && (
                         <Button variant="outline" size="sm" asChild>
                           <a
@@ -367,30 +391,6 @@ const Profile = () => {
                           >
                             <Twitter className="h-4 w-4" />
                             Twitter
-                          </a>
-                        </Button>
-                      )}
-                      {profile.socialLinks?.linbkedin && (
-                        <Button variant="outline" size="sm" asChild>
-                          <a
-                            href={profile.socialLinks.linkedin}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <Linkedin className="h-4 w-4" />
-                            LinkedIn
-                          </a>
-                        </Button>
-                      )}
-                      {profile.socialLinks?.github && (
-                        <Button variant="outline" size="sm" asChild>
-                          <a
-                            href={profile.socialLinks.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <Github className="h-4 w-4" />
-                            GitHub
                           </a>
                         </Button>
                       )}

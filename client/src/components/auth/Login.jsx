@@ -33,7 +33,7 @@ const Login = () => {
           {/* <label htmlFor="email" className="block mb-1">
             Email
           </label> */}
-          <Input className="bg-white" type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <Input className="" type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           {/* <input
             type="email"
             id="email"
@@ -48,7 +48,7 @@ const Login = () => {
           {/* <label htmlFor="password" className="block mb-1">
             Password
           </label> */}
-          <Input className="bg-white" type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <Input className="" type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           {/* <input
             type="password"
             id="password"

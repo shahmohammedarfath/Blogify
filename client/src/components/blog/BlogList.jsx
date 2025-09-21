@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import API from "../utils/api.js";
 import {
   Card,
@@ -8,11 +8,15 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card.jsx";
+import Search from "../Search.jsx";
 
 const BlogList = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  // const [searchParams] = useSearchParams();
+
+  // const searchQuery = searchParams.get("search");
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -39,6 +43,9 @@ const BlogList = () => {
   return (
     <div className="max-w-4xl mx-auto mt-8">
       <h2 className="text-3xl font-bold mb-6">Latest Blog Posts</h2>
+      <div>
+        <Search setBlogPosts={setBlogPosts} />
+      </div>
       {blogPosts.length === 0 ? (
         <p className="text-center">No blog posts available.</p>
       ) : (
